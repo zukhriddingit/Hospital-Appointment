@@ -384,7 +384,7 @@ alert('User already registered. Please try again');
         
         <!-- third section end -->
         <!-- forth sections start -->
-        <section id="content-1-9" class="content-1-9 content-block">
+        <!-- <section id="content-1-9" class="content-1-9 content-block">
             <div class="container">
                 <div class="underlined-title">
                     <h1>Get in Touch</h1>
@@ -447,15 +447,13 @@ alert('User already registered. Please try again');
                         </div>
                     </div>
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container -->
-        </section>
+        </section> -->
         <!-- forth section end -->
         <!-- footer start -->
         <div class="copyright-bar bg-black">
             <div class="container">
-                <p class="pull-left small">© mohd mazlan - codedesign</p>
+                <p class="pull-left small">© Projectworlds <a href ="https://projectworlds.in/">Get More Projects </a></p>
                 <p class="pull-right small"><a href="adminlogin.php">admin</a></p>
             </div>
         </div>

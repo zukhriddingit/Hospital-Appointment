@@ -1,20 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
--- http://www.phpmyadmin.net
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2015 at 01:02 PM
--- Server version: 5.5.39
--- PHP Version: 5.4.31
+-- Generation Time: May 11, 2020 at 05:26 PM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `db_healthcare`
@@ -26,14 +28,14 @@ SET time_zone = "+00:00";
 -- Table structure for table `appointment`
 --
 
-CREATE TABLE IF NOT EXISTS `appointment` (
-`appId` int(3) NOT NULL,
+CREATE TABLE `appointment` (
+  `appId` int(3) NOT NULL,
   `patientIc` bigint(12) NOT NULL,
   `scheduleId` int(10) NOT NULL,
   `appSymptom` varchar(100) NOT NULL,
   `appComment` varchar(100) NOT NULL,
   `status` varchar(10) NOT NULL DEFAULT 'process'
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `appointment`
@@ -48,7 +50,7 @@ INSERT INTO `appointment` (`appId`, `patientIc`, `scheduleId`, `appSymptom`, `ap
 -- Table structure for table `doctor`
 --
 
-CREATE TABLE IF NOT EXISTS `doctor` (
+CREATE TABLE `doctor` (
   `icDoctor` bigint(12) NOT NULL,
   `password` varchar(20) NOT NULL,
   `doctorId` int(3) NOT NULL,
@@ -65,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `doctor` (
 --
 
 INSERT INTO `doctor` (`icDoctor`, `password`, `doctorId`, `doctorFirstName`, `doctorLastName`, `doctorAddress`, `doctorPhone`, `doctorEmail`, `doctorDOB`) VALUES
-(123456789, '123', 123, 'Mohd', 'Mazlan', 'kuala lumpur', '0173567758', 'lan.psis@gmail.com', '1990-04-10');
+(123456789, '123', 123, 'Doctor', 'Sehgal', 'kuala lumpur', '0173567758', 'dsehgal@gmail.com', '1990-04-10');
 
 -- --------------------------------------------------------
 
@@ -73,14 +75,14 @@ INSERT INTO `doctor` (`icDoctor`, `password`, `doctorId`, `doctorFirstName`, `do
 -- Table structure for table `doctorschedule`
 --
 
-CREATE TABLE IF NOT EXISTS `doctorschedule` (
-`scheduleId` int(11) NOT NULL,
+CREATE TABLE `doctorschedule` (
+  `scheduleId` int(11) NOT NULL,
   `scheduleDate` date NOT NULL,
   `scheduleDay` varchar(15) NOT NULL,
   `startTime` time NOT NULL,
   `endTime` time NOT NULL,
   `bookAvail` varchar(10) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `doctorschedule`
@@ -99,7 +101,7 @@ INSERT INTO `doctorschedule` (`scheduleId`, `scheduleDate`, `scheduleDay`, `star
 -- Table structure for table `patient`
 --
 
-CREATE TABLE IF NOT EXISTS `patient` (
+CREATE TABLE `patient` (
   `icPatient` bigint(12) NOT NULL,
   `password` varchar(20) NOT NULL,
   `patientFirstName` varchar(20) NOT NULL,
@@ -127,25 +129,28 @@ INSERT INTO `patient` (`icPatient`, `password`, `patientFirstName`, `patientLast
 -- Indexes for table `appointment`
 --
 ALTER TABLE `appointment`
- ADD PRIMARY KEY (`appId`), ADD UNIQUE KEY `scheduleId_2` (`scheduleId`), ADD KEY `patientIc` (`patientIc`), ADD KEY `scheduleId` (`scheduleId`);
+  ADD PRIMARY KEY (`appId`),
+  ADD UNIQUE KEY `scheduleId_2` (`scheduleId`),
+  ADD KEY `patientIc` (`patientIc`),
+  ADD KEY `scheduleId` (`scheduleId`);
 
 --
 -- Indexes for table `doctor`
 --
 ALTER TABLE `doctor`
- ADD PRIMARY KEY (`icDoctor`);
+  ADD PRIMARY KEY (`icDoctor`);
 
 --
 -- Indexes for table `doctorschedule`
 --
 ALTER TABLE `doctorschedule`
- ADD PRIMARY KEY (`scheduleId`);
+  ADD PRIMARY KEY (`scheduleId`);
 
 --
 -- Indexes for table `patient`
 --
 ALTER TABLE `patient`
- ADD PRIMARY KEY (`icPatient`);
+  ADD PRIMARY KEY (`icPatient`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -155,12 +160,14 @@ ALTER TABLE `patient`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-MODIFY `appId` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=87;
+  MODIFY `appId` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+
 --
 -- AUTO_INCREMENT for table `doctorschedule`
 --
 ALTER TABLE `doctorschedule`
-MODIFY `scheduleId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+  MODIFY `scheduleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
 --
 -- Constraints for dumped tables
 --
@@ -169,8 +176,9 @@ MODIFY `scheduleId` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
 -- Constraints for table `appointment`
 --
 ALTER TABLE `appointment`
-ADD CONSTRAINT `appointment_ibfk_4` FOREIGN KEY (`patientIc`) REFERENCES `patient` (`icPatient`),
-ADD CONSTRAINT `appointment_ibfk_5` FOREIGN KEY (`scheduleId`) REFERENCES `doctorschedule` (`scheduleId`);
+  ADD CONSTRAINT `appointment_ibfk_4` FOREIGN KEY (`patientIc`) REFERENCES `patient` (`icPatient`),
+  ADD CONSTRAINT `appointment_ibfk_5` FOREIGN KEY (`scheduleId`) REFERENCES `doctorschedule` (`scheduleId`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
