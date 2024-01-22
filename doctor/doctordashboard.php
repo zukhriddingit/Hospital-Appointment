@@ -135,6 +135,7 @@ $userRow=mysqli_fetch_array($res,MYSQLI_ASSOC);
                                                     On a.icPatient = b.patientIc
                                                     JOIN doctorschedule c
                                                     On b.scheduleId=c.scheduleId
+                                                    WHERE c.doctorId=".$usersession."
                                                     Order By appId desc");
                                   if (!$res) {
                                     printf("Error: %s\n", mysqli_error($con));

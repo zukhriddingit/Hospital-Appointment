@@ -140,7 +140,6 @@ header( 'Location: doctorprofile.php' ) ;
                         <div class="col-md-3 col-sm-3">
                             
                             <div class="user-wrapper">
-                                <img src="assets/img/1.jpg" class="img-responsive" />
                                 <div class="description">
                                     <h4><?php echo $userRow['doctorFirstName']; ?> <?php echo $userRow['doctorLastName']; ?></h4>
                                     <h5> <strong> Doctor </strong></h5>
@@ -189,6 +188,16 @@ header( 'Location: doctorprofile.php' ) ;
                                                 <tr>
                                                     <td>Birthdate</td>
                                                     <td><?php echo $userRow['doctorDOB']; ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Booking price</td>
+                                                    <td><?php echo $userRow['booking_price']; ?>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Balance</td>
+                                                    <td><?php echo $userRow['balance']; ?>
                                                     </td>
                                                 </tr>
                                             </tbody>

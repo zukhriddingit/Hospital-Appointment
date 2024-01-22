@@ -270,6 +270,11 @@ $userRow=mysqli_fetch_array($res,MYSQLI_ASSOC);
                                                                 <td><?php echo $userRow['patientEmail']; ?>
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+                                                                <td>Balance</td>
+                                                                <td><?php echo $userRow['balance']; ?>
+                                                                </td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                     <input type="hidden" name="MM_update" value="form1" />

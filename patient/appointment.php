@@ -9,56 +9,71 @@ if (isset($_GET['scheduleDate']) && isset($_GET['appid'])) {
 	$appid = $_GET['appid'];
 }
 // on b.icPatient = a.icPatient
-$res = mysqli_query($con,"SELECT a.*, b.* FROM doctorschedule a INNER JOIN patient b
+$res = mysqli_query($con,"SELECT a.*, b.*,d.* FROM doctorschedule a INNER JOIN patient b JOIN doctor d ON d.doctorId=a.doctorId
 WHERE a.scheduleDate='$appdate' AND scheduleId=$appid AND b.icPatient=$session");
 $userRow=mysqli_fetch_array($res,MYSQLI_ASSOC);
 
+// SELECT patient_balance INTO patientBalance FROM patient WHERE icPatient = patientId;
 
 	
 //INSERT
 if (isset($_POST['appointment'])) {
-$patientIc = mysqli_real_escape_string($con,$userRow['icPatient']);
-$scheduleid = mysqli_real_escape_string($con,$appid);
-$symptom = mysqli_real_escape_string($con,$_POST['symptom']);
-$comment = mysqli_real_escape_string($con,$_POST['comment']);
-$avail = "notavail";
+    $patientIc = mysqli_real_escape_string($con,$userRow['icPatient']);
+    $scheduleid = mysqli_real_escape_string($con,$appid);
+    $doctorId = $userRow['icDoctor'];
+    $bookingPrice = $userRow['booking_price'];
+    $symptom = mysqli_real_escape_string($con,$_POST['symptom']);
+    $comment = mysqli_real_escape_string($con,$_POST['comment']);
+    $avail = "notavail";
 
+    $stmt = $con->prepare("CALL UpdateBalances(?, ?, ?)");
+    $stmt->bind_param("iii", $patientIc, $doctorId, $bookingPrice);
 
-$query = "INSERT INTO appointment (  patientIc , scheduleId , appSymptom , appComment  )
-VALUES ( '$patientIc', '$scheduleid', '$symptom', '$comment') ";
+    if ($stmt->execute()) {
+        $query = "INSERT INTO appointment (  patientIc , scheduleId , appSymptom , appComment  )
+        VALUES ( '$patientIc', '$scheduleid', '$symptom', '$comment') ";
 
-//update table appointment schedule
-$sql = "UPDATE doctorschedule SET bookAvail = '$avail' WHERE scheduleId = $scheduleid" ;
-$scheduleres=mysqli_query($con,$sql);
-if ($scheduleres) {
-	$btn= "disable";
-} 
+        //update table appointment schedule
+        $sql = "UPDATE doctorschedule SET bookAvail = '$avail' WHERE scheduleId = $scheduleid" ;
+        $scheduleres=mysqli_query($con,$sql);
+        if ($scheduleres) {
+            $btn= "disable";
+        } 
 
-
-$result = mysqli_query($con,$query);
-// echo $result;
-if( $result )
-{
-?>
-<script type="text/javascript">
-alert('Appointment made successfully.');
-</script>
-<?php
-header("Location: patientapplist.php");
+        $result = mysqli_query($con,$query);
+        // echo $result;
+        if( $result )
+        {
+        ?>
+        <script type="text/javascript">
+        alert('Appointment made successfully.');
+        </script>
+        <?php
+        header("Location: patientapplist.php");
+        }
+        else
+        {
+        echo mysqli_error($con);
+        ?>
+        <script type="text/javascript">
+        alert('Appointment booking fail. Please try again.');
+        </script>
+        <?php
+        header("Location: patient/patient.php");
+        }
+    } else {
+        // Booking failed, handle error
+        echo mysqli_error($con);
+        ?>
+        <script type="text/javascript">
+        alert('Appointment booking fail. Please try again.');
+        </script>
+        <?php
+        header("Location: patient/patient.php");
+    }
 }
-else
-{
-	echo mysqli_error($con);
 ?>
-<script type="text/javascript">
-alert('Appointment booking fail. Please try again.');
-</script>
-<?php
-header("Location: patient/patient.php");
-}
-//dapat dari generator end
-}
-?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -130,14 +145,8 @@ header("Location: patient/patient.php");
 						<div class="col-md-3 col-sm-3">
 							
 							<div class="user-wrapper">
-								<img src="assets/img/1.jpg" class="img-responsive" />
 								<div class="description">
 									<h4><?php echo $userRow['patientFirstName']; ?> <?php echo $userRow['patientLastName']; ?></h4>
-									<h5> <strong> Website Designer </strong></h5>
-									<p>
-										Pellentesque elementum dapibus convallis.
-									</p>
-									<hr />
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update Profile</button>
 								</div>
 							</div>

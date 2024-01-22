@@ -20,8 +20,8 @@ $endtime     = mysqli_real_escape_string($con,$_POST['endtime']);
 $bookavail         = mysqli_real_escape_string($con,$_POST['bookavail']);
 
 //INSERT
-$query = " INSERT INTO doctorschedule (  scheduleDate, scheduleDay, startTime, endTime,  bookAvail)
-VALUES ( '$date', '$scheduleday', '$starttime', '$endtime', '$bookavail' ) ";
+$query = " INSERT INTO doctorschedule (  scheduleDate, scheduleDay, startTime, endTime,  bookAvail, doctorId)
+VALUES ( '$date', '$scheduleday', '$starttime', '$endtime', '$bookavail', '$usersession' ) ";
 
 $result = mysqli_query($con, $query);
 // echo $result;
@@ -107,7 +107,7 @@ alert('Added fail. Please try again.');
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="doctordashboard.php">Welcome Dr <?php echo $userRow['doctorFirstName'];?>
+                <a class="navbar-brand" href="doctordashboard.php">Welcome <?php echo $userRow['doctorFirstName'];?>
                     <?php echo $userRow['doctorLastName'];?></a>
             </div>
             <!-- Top Menu Items -->
@@ -340,7 +340,7 @@ alert('Added fail. Please try again.');
                             </thead>
 
                             <?php 
-                            $result=mysqli_query($con,"SELECT * FROM doctorschedule");
+                            $result=mysqli_query($con,"SELECT * FROM doctorschedule where doctorId = ".$usersession);
                             
 
                                   
@@ -356,7 +356,7 @@ alert('Added fail. Please try again.');
                                     echo "<td>" . $doctorschedule['endTime'] . "</td>";
                                     echo "<td>" . $doctorschedule['bookAvail'] . "</td>";
                                     echo "<form method='POST'>";
-                                    echo "<td class='text-center'><a href='#' id='".$doctorschedule['scheduleId']."' class='delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>
+                                    echo "<td class='text-center'><a href='#' id='".$doctorschedule['scheduleId']."' class='delete'><span class='fa fa-trash' aria-hidden='true'></span></a>
                             </td>";
                                
                             } 

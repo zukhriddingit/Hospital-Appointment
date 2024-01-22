@@ -41,7 +41,7 @@ $res=mysqli_query($con, "SELECT a.*, b.*,c.* FROM patient a
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="patient.php"><img alt="Brand" src="assets/img/logo.png" height="40px"></a>
+					<a class="navbar-brand" href="patient.php"></a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -61,7 +61,7 @@ $res=mysqli_query($con, "SELECT a.*, b.*,c.* FROM patient a
 									<a href="profile.php?patientId=<?php echo $userRow['icPatient']; ?>"><i class="fa fa-fw fa-user"></i> Profile</a>
 								</li>
 								<li>
-									<a href="patientapplist.php?patientId=<?php echo $userRow['icPatient']; ?>"><i class="glyphicon glyphicon-file"></i> Appointment</a>
+									<a href="patientapplist.php?patientId=<?php echo $userRow['icPatient']; ?>"><i class="fa fa-calendar"></i> Appointment</a>
 								</li>
 								<li class="divider"></li>
 								<li>
@@ -122,7 +122,7 @@ echo "<td>" . $userRow['scheduleDay'] . "</td>";
 echo "<td>" . $userRow['scheduleDate'] . "</td>";
 echo "<td>" . $userRow['startTime'] . "</td>";
 echo "<td>" . $userRow['endTime'] . "</td>";
-echo "<td><a href='invoice.php?appid=".$userRow['appId']."' target='_blank'><span class='glyphicon glyphicon-print' aria-hidden='true'></span></a> </td>";
+echo "<td><a href='invoice.php?appid=".$userRow['appId']."' target='_blank'>PRINT</a> </td>";
 }
 
 echo "</tr>";

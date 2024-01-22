@@ -87,7 +87,7 @@ $widowed = "checked";
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="patient.php"><img alt="Brand" src="assets/img/logo.png" height="40px"></a>
+					<a class="navbar-brand" href="patient.php"></a>
 				</div>
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -130,14 +130,8 @@ $widowed = "checked";
 						<div class="col-md-3 col-sm-3">
 							
 							<div class="user-wrapper">
-								<img src="assets/img/1.jpg" class="img-responsive" />
 								<div class="description">
 									<h4><?php echo $userRow['patientFirstName']; ?> <?php echo $userRow['patientLastName']; ?></h4>
-									<h5> <strong> Website Designer </strong></h5>
-									<p>
-										Pellentesque elementum dapibus convallis.
-									</p>
-									<hr />
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update Profile</button>
 								</div>
 							</div>
@@ -183,6 +177,11 @@ $widowed = "checked";
 													<td><?php echo $userRow['patientEmail']; ?>
 													</td>
 												</tr>
+												<tr>
+                                                    <td>Balance</td>
+                                                    <td><?php echo $userRow['patient_balance']; ?>
+                                                    </td>
+                                                </tr>
 											</tbody>
 										</table>
 									</div>

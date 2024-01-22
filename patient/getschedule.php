@@ -2,7 +2,9 @@
 session_start();
 include_once '../assets/conn/dbconnect.php';
 $q = $_GET['q'];
-$res = mysqli_query($con,"SELECT * FROM doctorschedule WHERE scheduleDate='$q'");
+$res = mysqli_query($con,"SELECT ds.*, d.doctorFirstName as doctorFirstName, d.doctorLastName as doctorLastName, d.booking_price as booking_price, d.balance as doctor_balance FROM doctorschedule ds JOIN doctor d on d.doctorId=ds.doctorId WHERE scheduleDate='$q'");
+$usersession1 = mysqli_query($con,"SELECT * FROM patient where icPatient=".$_SESSION['patientSession']);
+$usersession = mysqli_fetch_array($usersession1);
 if (!$res) {
 die("Error running $sql: " . mysqli_error());
 }
@@ -22,10 +24,12 @@ die("Error running $sql: " . mysqli_error());
             echo " <thead>";
                 echo " <tr>";
                     echo " <th>App Id</th>";
+                    echo " <th>Doctor Name</th>";
                     echo " <th>Day</th>";
                     echo " <th>Date</th>";
                     echo "  <th>Start Time</th>";
                     echo "  <th>End Time</th>";
+                    echo "  <th>Price</th>";
                     echo " <th>Availability</th>";
                     echo "  <th>Book Now!</th>";
                 echo " </tr>";
@@ -54,15 +58,20 @@ die("Error running $sql: " . mysqli_error());
                     // $btnstate="";
                     // }
                     echo "<td>" . $row['scheduleId'] . "</td>";
+                    echo "<td>" . $row['doctorFirstName']." ".$row['doctorLastName'] . "</td>";
                     echo "<td>" . $row['scheduleDay'] . "</td>";
                     echo "<td>" . $row['scheduleDate'] . "</td>";
                     echo "<td>" . $row['startTime'] . "</td>";
                     echo "<td>" . $row['endTime'] . "</td>";
+                    echo "<td>" . $row['booking_price'] . "</td>";
                     echo "<td> <span class='label label-".$avail."'>". $row['bookAvail'] ."</span></td>";
-                    echo "<td><a href='appointment.php?&appid=" . $row['scheduleId'] . "&scheduleDate=".$q."' class='btn btn-".$btnclick." btn-xs' role='button' ".$btnstate.">Book Now</a></td>";
-                    // echo "<td><a href='appointment.php?&appid=" . $row['scheduleId'] . "&scheduleDate=".$q."'>Book</a></td>";
-                    // <td><button type='button' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#exampleModal'>Book Now</button></td>";
-                    //triggered when modal is about to be shown
+                    if($usersession['patient_balance'] < $row['booking_price']){
+                        echo "<td><a href='#' class='btn btn-".$btnclick." btn-xs' role='button' ".$btnstate." onclick='return alert(\"You dont have enough balance\")'>Book Now</a></td>";
+                    } else {
+                        echo "<td><a href='appointment.php?&appid=" . $row['scheduleId'] . "&scheduleDate=".$q."' class='btn btn-".$btnclick." btn-xs' role='button' ".$btnstate." onclick='return confirmBooking()'>Book Now</a></td>";
+                        $usersession['patient_balance'] -= $row['booking_price'];
+                        $row['doctor_balance'] += $row['booking_price'];
+                    }
                     ?>
                     
                     </script>
@@ -81,4 +90,21 @@ die("Error running $sql: " . mysqli_error());
             
             
         </body>
+        <!-- <script>
+            function confirmBooking() {
+                alert('Are you sure you want to book this?');
+            }
+        </script> -->
+    </html>
+            
+            
+            
+            
+            
+        </body>
+        <script>
+            function confirmBooking() {
+                alert('Are you sure you want to book this?');
+            }
+        </script>
     </html>
