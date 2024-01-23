@@ -68,3 +68,4 @@ header("Location: doctor/doctordashboard.php");
         <!-- js end -->
     </body>
 </html>
+
